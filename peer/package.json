@@ -1,0 +1,33 @@
+{
+  "name": "peer",
+  "version": "1.0.0",
+  "description": "a peer for middleware",
+  "main": "server.js",
+  "dependencies": {
+    "dgram": "^1.0.1",
+    "express": "^4.15.3",
+    "hashmap": "^2.0.6",
+    "log4js": "^1.1.1",
+    "request": "^2.81.0",
+    "scanf": "^0.7.3",
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/godka/middleware.git"
+  },
+  "keywords": [
+    "peer"
+  ],
+  "author": "godka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/godka/middleware/issues"
+  },
+  "homepage": "https://github.com/godka/middleware#readme"
+}
