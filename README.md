@@ -8,7 +8,7 @@ tracker端是协调器，主要用于协调各个peer节点转发以及提供第
 
 ### 安装 ###
 
-首先，该程序是全平台通用。您必须下载并安装node.js(http://nodejs.cn/)，安装步骤略。
+首先，该程序是全平台通用。您必须下载并安装node.js( http://nodejs.cn/ )，安装步骤略。
 安装完毕后，cd到tracker目录，并用以下命令行安装：
 ```
 npm install
