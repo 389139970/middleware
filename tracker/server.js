@@ -24,7 +24,7 @@ setInterval(() => {
     map.forEach((t) => {
         var delay = _now - t.date;
         if (delay > 5000) {//>5s
-            logger.debug('remove', t.hostname);
+            logger.debug('remove', getTime(), t.hostname);
             map.remove(t.hostname);
             weightmap[t.hostname] = null;
         }
@@ -42,13 +42,15 @@ setInterval(() => {
         }
         _debugstr += t.hostname + '.weight -> ' + _weight + ' + ' + _realweight + ' ';
     });
-    logger.debug('interval', _debugstr);
+    //logger.debug('interval',getTime(),  _debugstr);
 }, oneSecond);  //3
 
 function getfiles(filePath) {
     return fs.readdirSync(filePath);
 }
-
+function getTime() {
+    return new Date().toLocaleString();
+}
 server.listen(3001, () => {
     port = server.address().port;
     console.log("listening at : %s", port);
@@ -70,6 +72,7 @@ function getExtensions(file) {
         return '';
     }
 }
+
 app.get('/getm3u8', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
     var ret = [];
@@ -89,7 +92,7 @@ app.get('/refresh', (req, res) => {
     var data = JSON.parse(decodeURIComponent(req.query.data));
     var host = getClientIp(req) + ':' + data.port;
     var _weight = data.weight;
-    logger.debug('refresh', host + "," + _weight);
+    //logger.debug('refresh', host + "," + _weight);
     var tmp = { hostname: host, file: data.file, weight: _weight, date: new Date().getTime() };
     map.set(host, tmp);
     res.end();
@@ -138,43 +141,41 @@ function corecal(requestfilename) {
     } else {
         weightmap[_host] = 0.5;
     }
+    logger.debug('redirect', getTime(), requestfilename + '->' + _host);
     return _host;
 }
 
 app.get('/*.ts', (req, res) => {
-    logger.debug('request', req.path);
+    res.header('Access-Control-Allow-Origin', '*');
+    logger.debug('request', getTime(), req.path + ' from ' + getClientIp(req));
     weight += 1;
     res.sendfile('./resource' + req.path);
     generate();
 });
-app.get('/downloadRawM3u8', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    var filename = req.query.filename;
-    res.sendfile('./resource/' + filename);
-});
 
 app.get('/*.m3u8', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    var data = fs.readFileSync('./resource' + req.path, "utf-8");
-    var arr = data.toString().split('\n');
-    var last = '';
-    for (var i = 0; i < arr.length; i++) {
-        var spstr = last.toString().split(':');
-        if (spstr.length > 0) {
-            if (spstr[0] == '#EXTINF') {
-                //judge
-                arr[i] = 'http://' + corecal(arr[i]) + '/' + arr[i];
-            }
-        }
-        last = arr[i];
-    }
-    var out = '';
-    for (var i = 0; i < arr.length; i++) {
-        if (i == arr.length - 1)
-            out += arr[i];
-        else
-            out += arr[i] + '\n';
-    }
-    res.send(out);
+    logger.debug('request', getTime(), req.path + ' from ' + getClientIp(req));
+    res.sendfile('./resource' + req.path);
+    generate();
 });
-app.use(express.static('resource'));
+
+function guessFilenameFromUri(uri) {
+    var arr = uri.split('/');
+    if (arr.length > 0) {
+        return arr[arr.length - 1];
+    } else {
+        return 'undefined';
+    }
+}
+
+app.get('/geturi', (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    var uri = req.query.uri;
+    if (uri != null) {
+        var _realuri = guessFilenameFromUri(uri);
+        res.send({ uri: 'http://' + corecal(_realuri) + '/' + _realuri });
+    } else {
+        res.end();
+    }
+});
