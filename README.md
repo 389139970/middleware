@@ -97,34 +97,44 @@ function corecal(requestfilename) {
 ## 日志查看 ##
 
 日志位于目录下的default.log中，使用普通的记事本就可打开。
->[2017-06-16 20:32:42.914] [DEBUG] tracker - request /hi.m3u8 from ::1
->[2017-06-16 20:32:43.000] [DEBUG] tracker - redirect LipReading_640_360_00000.ts -> 127.0.0.1:3001
->[2017-06-16 20:32:43.039] [DEBUG] tracker - request /LipReading_640_360_00000.ts from 127.0.0.1
->[2017-06-16 20:32:43.196] [DEBUG] tracker - redirect LipReading_640_360_00001.ts -> 127.0.0.1:58089
->[2017-06-16 20:32:43.392] [DEBUG] tracker - redirect LipReading_640_360_00002.ts -> 127.0.0.1:58089
->[2017-06-16 20:32:45.984] [DEBUG] tracker - redirect LipReading_640_360_00003.ts -> 127.0.0.1:58089
+```
+[2017-06-16 20:32:42.914] [DEBUG] tracker - request /hi.m3u8 from ::1
+[2017-06-16 20:32:43.000] [DEBUG] tracker - redirect LipReading_640_360_00000.ts -> 127.0.0.1:3001
+[2017-06-16 20:32:43.039] [DEBUG] tracker - request /LipReading_640_360_00000.ts from 127.0.0.1
+[2017-06-16 20:32:43.196] [DEBUG] tracker - redirect LipReading_640_360_00001.ts -> 127.0.0.1:58089
+[2017-06-16 20:32:43.392] [DEBUG] tracker - redirect LipReading_640_360_00002.ts -> 127.0.0.1:58089
+[2017-06-16 20:32:45.984] [DEBUG] tracker - redirect LipReading_640_360_00003.ts -> 127.0.0.1:58089
+```
 
 主要有以下几个关键词
 
 ### redirect ###
 
 tracker服务器选择节点后的日志输出，格式为 文件名->服务器。例：
->[2017-06-16 20:32:43.196] [DEBUG] tracker - redirect LipReading_640_360_00001.ts -> 127.0.0.1:58089
+```
+[2017-06-16 20:32:43.196] [DEBUG] tracker - redirect LipReading_640_360_00001.ts -> 127.0.0.1:58089
+```
 
 ### request ###
 
 tracker服务器和peer服务器被请求资源时的日志输出，格式为 文件名 from 请求者ip，例：
->[2017-06-16 20:32:43.039] [DEBUG] tracker - request /LipReading_640_360_00000.ts from 127.0.0.1
->[2017-06-16 20:32:43.214] [DEBUG] peer - request /LipReading_640_360_00001.ts from 127.0.0.1
+```
+[2017-06-16 20:32:43.039] [DEBUG] tracker - request /LipReading_640_360_00000.ts from 127.0.0.1
+[2017-06-16 20:32:43.214] [DEBUG] peer - request /LipReading_640_360_00001.ts from 127.0.0.1
+```
 
 **IP有时以ipv6的方式表达。**
 
 ### remove ###
 
 tracker服务器在删除某个心跳过期节点时的日志输出，格式为 服务器，例：
->[2017-06-16 20:32:43.049] [DEBUG] tracker - remove 127.0.0.1:58089
+```
+[2017-06-16 20:32:43.049] [DEBUG] tracker - remove 127.0.0.1:58089
+```
 
 ### download ###
 
 peer服务器将视频文件保存到本地时的日志输出，格式为 [文件名] from 文件地址，例：
->[2017-06-16 20:32:37.396] [DEBUG] peer - download: [LipReading_640_360_00003.ts] from http://127.0.0.1:3001/LipReading_640_360_00003.ts
+```
+[2017-06-16 20:32:37.396] [DEBUG] peer - download: [LipReading_640_360_00003.ts] from http://127.0.0.1:3001/LipReading_640_360_00003.ts
+```
