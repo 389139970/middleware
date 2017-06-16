@@ -24,7 +24,7 @@ setInterval(() => {
     map.forEach((t) => {
         var delay = _now - t.date;
         if (delay > 5000) {//>5s
-            logger.debug('remove', getTime(), t.hostname);
+            logger.debug('remove', t.hostname);
             map.remove(t.hostname);
             weightmap[t.hostname] = null;
         }
@@ -110,7 +110,7 @@ function GetRandomNum(Num) {
     return Math.random() * Num;
 }
 function corecal(requestfilename) {
-    var _weight = 99999999;
+    //var _weight = 99999999;
     var _host = '';
     var _hostarr = [];
     map.forEach((t) => {
@@ -136,18 +136,20 @@ function corecal(requestfilename) {
     //this is only for a test
     var _index = Math.floor(GetRandomNum(_hostarr.length));
     _host = _hostarr[_index];
+    /*
     if (weightmap[_host] != null) {
         weightmap[_host] += 0.5;
     } else {
         weightmap[_host] = 0.5;
     }
-    logger.debug('redirect', getTime(), requestfilename + '->' + _host);
+    */
+    logger.debug('redirect', requestfilename + ' -> ' + _host);
     return _host;
 }
 
 app.get('/*.ts', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    logger.debug('request', getTime(), req.path + ' from ' + getClientIp(req));
+    logger.debug('request', req.path + ' from ' + getClientIp(req));
     weight += 1;
     res.sendfile('./resource' + req.path);
     generate();
@@ -155,7 +157,7 @@ app.get('/*.ts', (req, res) => {
 
 app.get('/*.m3u8', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    logger.debug('request', getTime(), req.path + ' from ' + getClientIp(req));
+    logger.debug('request', req.path + ' from ' + getClientIp(req));
     res.sendfile('./resource' + req.path);
     generate();
 });

@@ -53,7 +53,7 @@ function getClientIp(req) {
 
 app.get('/*.ts', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    logger.debug('request', getTime(), req.path + ' from ' + getClientIp(req));
+    logger.debug('request', req.path + ' from ' + getClientIp(req));
     weight += 1;
     res.sendfile('./resource' + req.path);
     generate();
@@ -76,7 +76,7 @@ app.get('/download', (req, res) => {
         _file = guessFilenameFromUri(_uri);
     if (!fs.existsSync('./resource/' + _file)) {
         request(_uri).pipe(fs.createWriteStream('./resource/' + _file));
-        logger.debug("download:", getTime(), "[" + _file + "] from " + _uri);
+        logger.debug("download:", "[" + _file + "] from " + _uri);
     }
     res.end();
 });
