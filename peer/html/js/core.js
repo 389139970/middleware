@@ -22,7 +22,7 @@ function downloadm3u8(filename) {
                 }
             }
         });
-    }else{
+    } else {
         player.pause();
     }
     player.src({
@@ -41,12 +41,17 @@ function downloadm3u8(filename) {
             return options;
         });
     };
-    
+
     player.play();
 }
 $.get('http://localhost:3001/getm3u8', function (data) {
     data.forEach(function (element) {
-        var str = "<button type=\"button\" onclick = \"downloadm3u8('" + element + "')\" class=\"btn btn-default btn-lg \">" + element + "</button>";
+        var str = "<a onclick=\"downloadm3u8('" + element + "')\" class=\"list-group-item\">" + element + "</a>";
+        //var str = "<button type=\"button\" onclick = \"downloadm3u8('" + element + "')\" class=\"btn btn-default btn-lg \">" + element + "</button>";
         $('#buttonnow').append(str);
     }, this);
+});
+
+window.addEventListener('load', function () {
+    console = new Console('console', console);
 });
