@@ -75,8 +75,9 @@ player.tech({ IWillNotUseThisInPlugins: true }).hls.xhr.beforeRequest = function
     });
 };
 ```
+黄哥最帅
 
-## 二次开发 ##
+！！！！
 
 二次开发主要在tracker端的server.js中。
 peer端每一秒发送心跳包，内容包括**端口号，当前所有文件名，权重**。
